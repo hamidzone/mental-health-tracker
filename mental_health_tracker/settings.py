@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-import os
+
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,14 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-4k5(h$l#z@9)6)2f44&s0!scv-+^l@-*6fc+r0^s51o8i9l#l!'
+SECRET_KEY = 'django-insecure-k*rn%qbg+5pctzux&oh50)607l5n!_z#yxeg79#_@sa&9tnv$)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 PRODUCTION = os.getenv("PRODUCTION", False)
-DEBUG = not PRODUCTION
+DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1", "muhammad-hamid-mentalhealthtracker.pbp.cs.ui.ac.id"]
-
+ALLOWED_HOSTS = ["localhost", "127.0.0.1", "mental-health-tracker.herokuapp.com"]
 
 # Application definition
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -119,8 +120,16 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static' # merujuk ke /static root project pada mode development
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / 'static' # merujuk ke /static root project pada mode production
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","https://pbp.cs.ui.ac.id/web/project/muhammad.hamid/mentalhealthtracker", "https://pbp.cs.ui.ac.id/web/project/muhammad.hamid/mentalhealthtracker"]
+
+CSRF_TRUSTED_ORIGINS = ["http://localhost","http://127.0.0.1","http://jeremia-rangga-mentalhealthtracker.pbp.cs.ui.ac.id", "https://jeremia-rangga-mentalhealthtracker.pbp.cs.ui.ac.id"]
